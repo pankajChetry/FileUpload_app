@@ -12,6 +12,10 @@ class FileViewSet(viewsets.ModelViewSet):
     def post(self, request, *args, **kwargs):
         uploadedfile = request.data['uploadedfile']
         title = request.data['title']
-        file.objects.create(title=title, uploadedfile=uploadedfile)
-        return HttpResponse({'message:File uploaded'}, status=200)
+        try:
+            file.objects.create(title=title, uploadedfile=uploadedfile)
+            return HttpResponse({'message:File uploaded'}, status=200)
+        except Exception as e:
+            return HttpResponse({'status': 500, 'error': str(e)}, status=500)
+
 
